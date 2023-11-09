@@ -11,7 +11,8 @@ CREATE TABLE Employee (
     employID INT AUTO_INCREMENT PRIMARY KEY,
     employ_fname VARCHAR(200) NOT NULL,
     employ_lname VARCHAR(200) NOT NULL,
-    employ_phone VARCHAR(200) NOT NULL
+    employ_phone VARCHAR(200) NOT NULL,
+    employ_Hours int
 );
 
 CREATE TABLE Tip (
@@ -78,10 +79,10 @@ INSERT INTO customer (custUser , custPass) VALUES
 ('custname2' , '1234'),
 ('custname3' , '1234');
 
-INSERT INTO employee (employ_fname , employ_lname , employ_phone) VALUES
-('employ1first', 'employ1last' , '4005674322') ,
-('employ2first', 'employ2last' , '40056743244') ,
-('employ3first', 'employ3last' , '4005674324466');
+INSERT INTO employee (employ_fname , employ_lname , employ_phone, employ_Hours) VALUES
+('employ1first', 'employ1last' , '4005674322', 100) ,
+('employ2first', 'employ2last' , '40056743244', 50) ,
+('employ3first', 'employ3last' , '4005674324466', 10);
 
 INSERT INTO checkin(cinCustname , cin_time) VALUES 
 ('custname1' , '10:00') , 
