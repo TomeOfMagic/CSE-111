@@ -80,11 +80,13 @@ INSERT INTO customer (custUser , custPass) VALUES
 
 INSERT INTO employee (employ_fname , employ_lname , employ_phone) VALUES
 ('employ1first', 'employ1last' , '4005674322') ,
-('employ2first', 'employ2last' , '40056743244');
+('employ2first', 'employ2last' , '40056743244') ,
+('employ3first', 'employ3last' , '4005674324466');
 
 INSERT INTO checkin(cinCustname , cin_time) VALUES 
 ('custname1' , '10:00') , 
-('custname2' , '9:15');
+('custname2' , '9:15') ,
+('custname3' , '8:15');
 
 INSERT INTO payrate (p_employID , hourly_rate) VALUES 
 (1 , 20) , (2 , 40) , (3 , 20);
@@ -98,11 +100,13 @@ INSERT INTO service (nameservice , description , price) VALUES(
     'Pedicure Deluxe' , 'This is Sample Deluxe Pedi' , '$50'
 );
 
-INSERT INTO shiftservices (ss_employid , ss_serviceid , ss_tipID , service_date) VALUES(
-    1 , 1 , 1 , '11/08/23'
+INSERT INTO tip (tip_amount , tip_date , employID) VALUES (
+    '$20' , '23-12-2' , 1
 );
 
-INSERT INTO tip (tip_amount , tip_date , employID) VALUES (
-    '$20' , '23/12/2' , 1
+INSERT INTO shiftservices (ss_employid , ss_serviceid , ss_tipID , service_date) VALUES(
+    1 , 1 , 1 , '11-08-23'
 );
+
+
 
