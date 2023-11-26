@@ -108,6 +108,3 @@ INSERT INTO tip (tip_amount , tip_date , employID) VALUES (
 INSERT INTO shiftservices (ss_employid , ss_serviceid , ss_tipID , service_date) VALUES(
     1 , 1 , 1 , '11-08-23'
 );
-
-
-
