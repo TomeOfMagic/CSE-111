@@ -24,7 +24,6 @@ deleteall.sql
 /frontend/yarn-error.log*
 /frontend/.gitignore
 
-/backend/
 /backend/venv/
 /backend/Dockerfile
 /backend/.dockerignore

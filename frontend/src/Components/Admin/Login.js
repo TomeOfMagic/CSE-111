@@ -1,34 +1,25 @@
 import React , {useEffect, useState} from "react";
 import axios from "axios";
 
-export default function Login(props){
+export default function Login(){
     const [username , setUserName] = useState('');
     const [pass , setPass] = useState('');
 
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-          props.setToken(token);
-        }
-    }, []);
-
     function AdminLogin(e){
         e.preventDefault();
-        axios.post('http://24.199.101.67:8080/admin/login' ,{
+        axios.post('http://localhost:8080/admin/login' ,{
             username: username,
             password: pass,
         })
         .then(function (resp) {
-            const token = resp.data.access_token;
-            props.setToken(token);
-            if (token){
-                alert ("Login Success!");
+            if (resp.status === 200){
+                alert (resp.data.msg);
                 setUserName('');
                 setPass('');
                 window.location.href = "/Admin/Booking";
             }
             else{
-                alert("Wrong Credetials");
+                alert(resp.data.msg);
                 setUserName('');
                 setPass('');
             }
