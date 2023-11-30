@@ -5,6 +5,7 @@ import Login from './Components/Admin/Login';
 import EmpReg from './Components/Employee/empLogin';
 import CustomerSignIn from './Components/Customer/SignIn';
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
+import Checkin from './Components/Checkin';
 import './App.css';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
     <Routes>
       {!IsAdmin? (
         <>
+          <Route path = "/" element = {<Checkin />}/>
           <Route path="/Employee/*">
             <Route index element = {<Navigate to = "empReg" />} />
             <Route path="empReg" element={<EmpReg />} />
