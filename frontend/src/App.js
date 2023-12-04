@@ -31,7 +31,7 @@ function App() {
         <>
         <Route path="/Admin/*">
           <Route index element={<Navigate to="Login" />} />
-          <Route path="Login" element={<Login />} />
+          <Route path="Login" element={<Login setToken = {setToken} />} />
           <Route path="*" element={<Navigate to="/Admin/" />} />
         </Route>
       </>
