@@ -46,8 +46,8 @@ function NavAdmin(props) {
         }
     }, []); 
     return (
-        <div className="w-full font-sans">
-            <nav className="bg-white flex justify-between p-5 lg:justify-around  shadow-md w-full fixed top-0 left-0 right-0 z-10 ">
+        <div className=" w-full font-sans">
+            <nav className="bg-red-200 flex w-full p-5 fixed top-0 z-10 ">
                 <div id="logo flex">
                     {/* <img className="w-14 md:w-24 rounded-full" src={book1} /> */}
                     <span className=" flex text-4xl text-[#9eccfa] font-Dancing italic">Nail Spa</span>

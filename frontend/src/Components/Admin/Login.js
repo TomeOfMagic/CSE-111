@@ -15,36 +15,78 @@ export default function Login(props){
         }
     })
 
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+          props.setToken(token);
+        }
+    }, []);
+
     function AdminLogin(e){
         e.preventDefault();
-        axios.post('http://localhost:8080/admin/login' ,{
-            username: username,
-            password: pass,
-        })
-        .then(function (resp) {
-            const token = resp.data.access_token;
-            props.setToken(token);
-            if (resp.status === 200){
-                alert (resp.data.msg);
-                setUserName('');
-                setPass('');
-                window.location.href = "/Admin/Booking";
-            }
-            else{
-                alert(resp.data.msg);
-                setUserName('');
-                setPass('');
-            }
-        })
+        if (username === '' && pass === ''){
+            alert("Please Enter Missing Information");
+        }
+        else{
+            axios.post(`${process.env.REACT_APP_API_URL}/admin/login` ,{
+                username: username,
+                password: pass,
+            })
+
+            .then(function (resp) {
+                const token = resp.data.access_token;
+                props.setToken(token);
+                if (token){
+                    alert (resp.data.msg);
+                    setUserName('');
+                    setPass('');
+                    window.location.href = "/Admin/Main";
+                }
+                else{
+                    alert(resp.data.msg);
+                    setUserName('');
+                    setPass('');
+                }
+            })
+        }
     };
-    return(
+
+    function AdminRegister(e){
+        e.preventDefault();
+        if (username === '' && pass === ''){
+            alert("Please Enter Missing Information");
+        }else{
+            axios.post(`${process.env.REACT_APP_API_URL}/admin/register` ,{
+                username: username,
+                password: pass,
+            })
+
+            .then(function (resp) {
+                const token = resp.data.access_token;
+                props.setToken(token);
+                if (token){
+                    alert (resp.data.msg);
+                    setUserName('');
+                    setPass('');
+                    window.location.href = "/Admin/Main";
+                }
+                else{
+                    alert(resp.data.msg);
+                    setUserName('');
+                    setPass('');
+                }
+            })
+        }
+    };
+
+    return (
         <div className="min-h-screen p-4 font-Roboto font-semibold overflow-hidden overscroll-y-none bg-gradient-to-r from-blue-100 via-blue-300 to-blue-500 overscroll-none">
-            <div className="md:mt-28 grid md:grid-cols-2 grid-cols-1 gap-6 m-auto bg-white rounded-lg shadow-md max-w-4xl max-h-full ">
-                <div className=" bg-center cursor-pointer bg-cover bg-bgtest bg-no-repeat hidden md:flex md:flex-col md:items-center md:justify-center">
+            <div className="md:mt-24 grid md:grid-cols-2 grid-cols-1 gap-6 m-auto bg-white rounded-lg shadow-md max-w-4xl max-h-full ">
+                <div className={`bg-center cursor-pointer bg-cover ${!isClickSignUp? "bg-bgtest" : "bg-bgtest2"} bg-no-repeat hidden md:flex md:flex-col md:items-center md:justify-center`}>
                 </div>
                 <div className=" px-6 py-12 md:px-6 md:py-24">
                     <div className=" space-y-4">
-                        <h1 className="text-2xl italic text-center text-sky-700 underline">
+                        <h1 className="text-xl italic text-center text-sky-700 underline">
                             {!isClickSignUp ? 'Sign In' : 'Sign Up'}
                         </h1>
                         <div className="flex cursor-pointer justify-center space-x-4">
@@ -66,10 +108,10 @@ export default function Login(props){
                             </div>
                             <div className="mt-6">
                                 {!isClickSignUp?
-                                    (<button onClick={(e) => AdminLogin(e)} className="w-full text-md px-4 py-2 tracking-wide text-black border-2 border-sky-200 hover:bg-sky-200 hover:text-white rounded-full transition-colors duration-200 transform  focus:outline-none ">
+                                    (<button onClick={AdminLogin} className="w-full text-md px-4 py-2 tracking-wide text-black border-2 border-sky-200 hover:bg-sky-200 hover:text-white rounded-full transition-colors duration-200 transform  focus:outline-none ">
                                         Log In
                                     </button>):
-                                    (<button className="w-full text-md px-4 py-2 tracking-wide text-black border-2 border-sky-200 hover:bg-sky-200 hover:text-white rounded-full transition-colors duration-200 transform  focus:outline-none ">
+                                    (<button onClick={AdminRegister} className="w-full text-md px-4 py-2 tracking-wide text-black border-2 border-sky-200 hover:bg-sky-200 hover:text-white rounded-full transition-colors duration-200 transform  focus:outline-none ">
                                         Register
                                     </button>)
                                 }
@@ -82,5 +124,6 @@ export default function Login(props){
                 </div>
             </div>
         </div>
+        
     );
 };

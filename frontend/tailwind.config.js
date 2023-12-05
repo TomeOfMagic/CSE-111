@@ -37,6 +37,7 @@ module.exports = {
       backgroundImage: {
         'pageb': "url('/src/img/bg5.png')",
         'bgtest': "url('/src/img/1.png')",
+        'bgtest2': "url('/src/img/2.png')",
       }
     },
   },
