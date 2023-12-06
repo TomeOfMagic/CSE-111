@@ -11,7 +11,7 @@ app.config.from_object(Configuration)
 init(app=app)
 
 
-CORS(app)
+CORS(app , supports_credentials= True)
 
 app.register_blueprint(admin)
 

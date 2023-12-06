@@ -2,20 +2,22 @@ import React , {useState , useEffect} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook , faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import axios from "axios";
-export default function Login(props){
 
+export default function Login(props){
     const [username , setUserName] = useState('');
     const [pass , setPass] = useState('');
-
     const [isClickSignUp , setClickSignUp] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        if (token) {
-          props.setToken(token);
+        const name = localStorage.getItem("name");
+        if (token){
+            props.setToken(token);
+            props.setName(name);
         }
-    }, []);
+    } , []);
 
+    
     function AdminLogin(e){
         e.preventDefault();
         if (username === '' && pass === ''){
@@ -32,9 +34,10 @@ export default function Login(props){
                 props.setToken(token);
                 if (token){
                     alert (resp.data.msg);
+                    props.setName(username);
                     setUserName('');
                     setPass('');
-                    window.location.href = "/Admin/Main";
+                    window.location.href = "/Admin";
                 }
                 else{
                     alert(resp.data.msg);
@@ -42,6 +45,7 @@ export default function Login(props){
                     setPass('');
                 }
             })
+            
         }
     };
 
@@ -60,9 +64,10 @@ export default function Login(props){
                 props.setToken(token);
                 if (token){
                     alert (resp.data.msg);
+                    props.setName(username);
                     setUserName('');
                     setPass('');
-                    window.location.href = "/Admin/Main";
+                    window.location.href = "/Admin";
                 }
                 else{
                     alert(resp.data.msg);

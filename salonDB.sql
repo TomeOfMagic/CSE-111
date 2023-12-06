@@ -80,7 +80,7 @@ INSERT INTO customer (custUser , custPass) VALUES
 ('custname3' , '1234');
 
 INSERT INTO employee (employ_fname , employ_lname , employ_phone, employ_Hours) VALUES
-('employ1first', 'employ1last' , '4005674322', 100) ,
+('employ4first', 'employ5last' , '4005674322', 100) ,
 ('employ2first', 'employ2last' , '40056743244', 50) ,
 ('employ3first', 'employ3last' , '4005674324466', 10);
 

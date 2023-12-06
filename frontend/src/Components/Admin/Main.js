@@ -1,13 +1,15 @@
 import React from "react";
-import useToken from "../UseToken";
-import NavAdmin from "../NavBar";
+import DashboardNav from "../DashboardNav";
+// import NavAdmin from "../Admin/Navbar";
 import { Outlet} from "react-router";
 
 export default function Main(props){
     return (
-        <>
-            <NavAdmin token = {props.token} removeToken = {props.removeToken} setToken = {props.setToken} />
-            <Outlet></Outlet>
-        </>
+        <main className=" bg-white w-screen h-screen flex overscroll-x-none overflow-y-hidden overflow-x-hidden">
+            <div className="flex"><DashboardNav name = {props.name} /></div>
+            <div className="flex-auto">
+                <Outlet/>
+            </div>
+        </main>
     )
 }
