@@ -1,8 +1,8 @@
 from datetime import timedelta
 
 class Configuration:
-    # SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:123giadinh@localhost/salonmanagement" 
-    # SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:123giadinh@localhost/salonmanagement" 
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     JWT_SECRET_KEY = '123giadinh'
     JWT_COOKIE_SECURE = True
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
