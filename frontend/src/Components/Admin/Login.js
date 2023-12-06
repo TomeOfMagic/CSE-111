@@ -36,6 +36,7 @@ export default function Login(props){
             .then(function (resp) {
                 const token = resp.data.access_token;
                 props.setToken(token);
+                props.name(username);
                 if (token){
                     alert (resp.data.msg);
                     setUserName('');
