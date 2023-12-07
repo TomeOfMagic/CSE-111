@@ -1,4 +1,4 @@
-import { faArrowLeft, faDashboard , faArrowRight, faShoppingBag , faUserGroup , faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faDashboard , faArrowRight, faShoppingBag , faUserGroup , faRightFromBracket, faFaceSmile} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import userimg from "../img/usericon/user.png";
 import {Link} from 'react-router-dom';
@@ -7,6 +7,7 @@ import userimg2 from "../img/usericon/user1.png";
 import userimg3 from "../img/usericon/user3.png";
 import React, { useState , useEffect} from "react";
 import { BiHappyBeaming } from "react-icons/bi";
+import axios from "axios";
 
 export default function DashboardNav(props){
     const [isClose , setisClose] = useState(false);
@@ -25,6 +26,24 @@ export default function DashboardNav(props){
         const randomIndex = Math.floor(Math.random() * images.length);
         setCurrentImage(images[randomIndex]);
     };
+
+    const logout = () => {
+        axios.post(`${process.env.REACT_APP_API_URL}/admin/logout`, {}, {
+            withCredentials: true,
+            headers: {
+                "Content-Type": 'application/json',
+                Authorization: `Bearer ${props.token}`
+            },
+        })
+        .then((resp) => {
+            props.removeToken();
+            alert(resp.data.msg);
+            window.location.href = '/Admin/Login';
+        })
+        .catch((error) => {
+            console.error(error); // Changed to console.error for logging errors
+        });
+    }
 
     useEffect(() => {
         selectRandomImage();
@@ -65,23 +84,27 @@ export default function DashboardNav(props){
                                 <div onClick={() => handleTabClick("Employee")}  className={` ${isActive("Employee")} rounded-full hover:bg-sky-300 text-white space-x-6 p-4`}>
                                     <FontAwesomeIcon className="text-2xl" icon={faUserGroup} />
                                     <Link 
-                                        to =  "/Admin/EmployeePage"
+                                        to = "/Admin/EmployeePage"
                                         className=" text-xl">Employee
                                     </Link>
                                 </div>
                                 <div onClick={() => handleTabClick("Services")} className={` ${isActive("Services")} rounded-full hover:bg-sky-300 text-white space-x-6 p-4`}>
                                     <FontAwesomeIcon className="text-2xl" icon={faShoppingBag} />
-                                    <button className=" ">
-                                        <span className="text-xl">Services</span>
-                                    </button>
+                                    <Link
+                                        to = "/Admin/ServicePage"
+                                        className=" text-xl">
+                                        Services
+                                    </Link>
                                 </div>
                                 <div onClick={() => handleTabClick("Customer")} className={` flex ${isActive("Customer")} rounded-full hover:bg-sky-300 text-white space-x-6 p-4`}>
                                     <BiHappyBeaming className=" text-3xl" />
-                                    <button className=" ">
-                                        <span className="text-xl -ml-2">Customer</span>
-                                    </button>
+                                    <Link
+                                        to = "/Admin/CustomerPage" 
+                                        className=" text-xl -ml-2">
+                                        Customer
+                                    </Link>
                                 </div>
-                                <div onClick={() => handleTabClick("Logout")} className={` flex ${isActive("Logout")} w-4/5 bg-gray-600 justify-center text-center absolute lg:bottom-20 rounded-full  text-white space-x-6 p-4`}>
+                                <div onClick={logout} className={` flex ${isActive("Logout")} w-4/5 bg-gray-600 justify-center text-center absolute lg:bottom-20 rounded-full  text-white space-x-6 p-4`}>
                                     <FontAwesomeIcon icon={faRightFromBracket} className="text-3xl" />
                                     <button className=" ">
                                         <span className="text-xl">Log Out</span>
@@ -91,26 +114,26 @@ export default function DashboardNav(props){
                         ):(
                             <>
                                 <div  onClick={() => handleTabClick("Dashboard")}  className={`${isActive("Dashboard")} text-center rounded-full hover:bg-sky-300 text-white space-x-6 p-4`}>
-                                    <button className=" text-white">
+                                    <Link to="/Admin/AdminPage" className=" text-white">
                                         <FontAwesomeIcon className="text-2xl" icon={faDashboard} />
-                                    </button>
+                                    </Link>
                                 </div>
                                 <div onClick={() => handleTabClick("Employee")}  className={`${isActive("Employee")} text-center rounded-full hover:bg-sky-300 text-white space-x-6 p-4`}>
-                                    <button className=" text-white">
+                                    <Link to = "/Admin/EmployeePage" className=" text-white">
                                         <FontAwesomeIcon className="text-2xl" icon={faUserGroup} />
-                                    </button>
+                                    </Link>
                                 </div>
                                 <div onClick={() => handleTabClick("Services")}  className={`${isActive("Services")} text-center rounded-full hover:bg-sky-300 text-white space-x-6 p-4`}>
-                                    <button className=" text-white ">
+                                    <Link to="/Admin/ServicePage" className=" text-white ">
                                         <FontAwesomeIcon className="text-2xl" icon={faShoppingBag} />
-                                    </button>
+                                    </Link>
                                 </div>
                                 <div onClick={() => handleTabClick("Customer")}  className={`${isActive("Customer")} text-center rounded-full hover:bg-sky-300 text-white space-x-6 p-4`}>
-                                    <button className=" text-white">
-                                        <BiHappyBeaming className=" text-2xl" />
-                                    </button>
+                                    <Link to="/Admin/CustomerPage" className=" text-white">
+                                        <FontAwesomeIcon icon={faFaceSmile} className=" text-2xl" />
+                                    </Link>
                                 </div>
-                                <div onClick={() => handleTabClick("Logout")}  className={`${isActive("Logout")} absolute bottom-20 left-1/3 rounded-full hover:bg-sky-300 text-white space-x-6 p-4`}>
+                                <div onClick={logout}  className={`${isActive("Logout")} absolute bottom-20 left-1/3 rounded-full hover:bg-sky-300 text-white space-x-6 p-4`}>
                                     <button className=" text-white">
                                         <FontAwesomeIcon icon={faRightFromBracket} className="text-2xl" />
                                     </button>

@@ -6,6 +6,8 @@ import { Route, Routes, Navigate} from 'react-router-dom';
 import './App.css';
 import AdminPage from './Components/Admin/Pages/AdminPage';
 import EmployeePage from './Components/Admin/Pages/Employee';
+import ServicesPage from './Components/Admin/Pages/Services';
+import CustomerPage from './Components/Admin/Pages/Customer';
 function App() {
 
   const { token, removeToken, setToken , name , setName} = useToken();
@@ -17,6 +19,8 @@ function App() {
         <Route index element={<Navigate to="AdminPage" />} />
         <Route path="AdminPage" element = {<AdminPage token = {token} removeToken = {removeToken} setToken={setToken} setName = {setName} name = {name} />} />
         <Route path="EmployeePage" element = {<EmployeePage token = {token} removeToken = {removeToken} setToken={setToken} setName = {setName} name = {name}/>}/>
+        <Route path="ServicePage" element = {<ServicesPage token = {token} removeToken = {removeToken} setToken={setToken} setName = {setName} name = {name}/>}/>
+        <Route path="CustomerPage" element = {<CustomerPage token = {token} removeToken = {removeToken} setToken={setToken} setName = {setName} name = {name}/>}/>
         <Route path="*" element={<Navigate to="/Login" />} />
       </Route>
       

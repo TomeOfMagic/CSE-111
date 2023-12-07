@@ -108,3 +108,12 @@ INSERT INTO tip (tip_amount , tip_date , employID) VALUES (
 INSERT INTO shiftservices (ss_employid , ss_serviceid , ss_tipID , service_date) VALUES(
     1 , 1 , 1 , '11-08-23'
 );
+
+SELECT service.* , emp.employ_fname FROM service 
+LEFT JOIN shiftservices sh ON sh.ss_serviceid = service.serviceID 
+LEFT JOIN employee emp ON sh.ss_employid = emp.employID;
+
+ALTER TABLE pointearn
+ADD CONSTRAINT fk_p_customerID FOREIGN KEY (p_customerID)
+REFERENCES customer (customerID)
+ON DELETE CASCADE;

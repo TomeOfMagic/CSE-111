@@ -56,3 +56,6 @@ GROUP BY payrate.payrateID
 Having payrate.hourly_rate <= 20;
 
 DELETE FROM payrate WHERE payrate.hourly_rate <= 30;
+
+SELECT customer.* , pointearn.p_point as reward FROM customer 
+LEFT JOIN pointearn pointearn ON pointearn.p_customerID = customer.customerID 

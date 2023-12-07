@@ -147,7 +147,7 @@ def graphData():
 
     return jsonify({"data": end_of_week_pay, "categories": employ_ids})
 
-@admin.route("/admin/employee" , methods = ['GET' , 'POST' , 'DELETE'])
+@admin.route("/admin/employee" , methods = ['GET' , 'POST'])
 @jwt_required(locations=['headers'])
 def getemployee():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -163,30 +163,168 @@ def getemployee():
             """
         )
         data = cursor.fetchall()
-        print(data)
         return jsonify(data = data)
     
-    elif request.method == 'DELETE':
+    elif request.method == 'POST':
         
         data = request.get_json()
+        
+        id = data.get('employID')
+        fname = data.get('employ_fname')
+        lname = data.get('employ_lname') 
+        phone = data.get('employ_phone')
+        hours = data.get('employ_Hours')
+        tip = data.get('tip_amount')
+        payrate = data.get('payrate')
+                
+        sql = """
+            UPDATE employee AS e
+            JOIN tip AS t ON e.employID = t.employID
+            JOIN payrate AS p ON p.p_employID = e.employID
+            SET e.employ_fname = %s, e.employ_lname = %s, 
+                e.employ_phone = %s, 
+                e.employ_Hours = %s,
+                t.tip_amount = %s,
+                p.hourly_rate = %s
+            WHERE e.employID = %s;
+        """
+        
+        cursor.execute(sql , (fname , lname , phone , hours , tip , payrate , id))
+        
+        mysql.connection.commit()
+        
+        return jsonify(msg = 'Update Successfully')
+    
+
+@admin.route("/admin/services" , methods = ['GET' , 'POST' , 'DELETE'])
+@jwt_required(locations=['headers'])
+def getservice():
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    
+    if request.method == 'GET':  
+        cursor.execute(
+            """
+                SELECT service.* , emp.employ_fname as status FROM service 
+                LEFT JOIN shiftservices sh ON sh.ss_serviceid = service.serviceID 
+                LEFT JOIN employee emp ON sh.ss_employid = emp.employID;
+            """
+        )
+        
+        data = cursor.fetchall()
+                
+        return jsonify(data = data)
+    
+    elif request.method == 'POST':
+        
+        data = request.get_json()
+        
+        id = data.get('employID')
+        fname = data.get('employ_fname')
+        lname = data.get('employ_lname') 
+        phone = data.get('employ_phone')
+        
+        sql = """
+            UPDATE service AS s
+            SET s.nameservice = %s, 
+                s.description = %s, 
+                s.price = %s
+            WHERE s.serviceID = %s;
+        """
+                
+        cursor.execute(sql , (fname , lname , phone, id))
+        
+        mysql.connection.commit()
+        
+        return jsonify(msg = 'Update Successfully')
+    
+    else:
+        
+        data = request.get_json()
+        
         id = data.get('id')
         
-        cursor.execute(
-            """
-                DELETE FROM payrate WHERE p_employID = %s;
-            """, (id,)
-        )
-
-        cursor.execute(
-            """
-                DELETE FROM employee WHERE employID = %s;
-            """, (id,)
-        )
+        sql = """
+            DELETE service, shiftservices
+            FROM service
+            LEFT JOIN shiftservices ON service.serviceID = shiftservices.ss_serviceid
+            WHERE service.serviceID = %s OR shiftservices.ss_serviceid = %s;
+        """
+        
+        cursor.execute(sql , (id,id))
         
         mysql.connection.commit()
         
         return jsonify(msg = 'Delete Successfully')
+    
+    
+@admin.route("/admin/customer" , methods = ['GET' , 'POST'])
+@jwt_required(locations=['headers'])
+def getCustomer():
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    
+    if request.method == 'GET':  
+        cursor.execute(
+            """                
+                SELECT customer.* , pointearn.p_point as reward FROM customer 
+                LEFT JOIN pointearn pointearn ON pointearn.p_customerID = customer.customerID
+            """
+        )
         
+        data = cursor.fetchall()
+                
+        return jsonify(data = data)
+    
+    elif request.method == 'POST':
+        
+        data = request.get_json()
+        
+        if data.get('name') == 'update':
+        
+            id = data.get('employID')
+            fname = data.get('employ_fname')
+            lname = data.get('employ_lname') 
+            phone = data.get('employ_phone')
+            
+            sql = """
+                UPDATE customer AS s
+                JOIN pointearn ss ON ss.p_customerID = s.customerID
+                SET s.custUser = %s, 
+                    s.custPass = %s, 
+                    ss.p_point = %s
+                WHERE s.customerID = %s;
+            """
+                    
+            cursor.execute(sql , (fname , lname , phone , id))
+            
+            mysql.connection.commit()
+            
+            return jsonify(msg = 'Update Successfully')
+        
+        else:
+            
+            fname = data.get('employ_fname')
+            lname = data.get('employ_lname') 
+            phone = data.get('employ_phone')
+            
+            sql = """
+                INSERT INTO customer(custUser , custPass)
+                VALUES (%s , %s);
+            """
+                    
+            cursor.execute(sql , (fname , lname))
+            
+            mysql.connection.commit()
+            
+            return jsonify(msg = 'Add Successfully')
+        
+
+
+@admin.route("/admin/logout" , methods = ['POST'])
+@jwt_required(locations=['headers'])
+def logout():
+    response = jsonify(msg = "You Have Been Logout")
+    unset_jwt_cookies(response=response)
+    return response
         
         
         
