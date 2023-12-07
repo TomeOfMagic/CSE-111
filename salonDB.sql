@@ -40,8 +40,8 @@ CREATE TABLE Service (
 CREATE TABLE ShiftServices (
     ss_employid INT NOT NULL,
     ss_serviceid INT NOT NULL,
-    ss_tipID INT NOT NULL,
-    service_date DATE NOT NULL,
+    ss_tipID INT,
+    service_date DATE ,
     FOREIGN KEY (ss_employid) REFERENCES Employee(employID),
     FOREIGN KEY (ss_serviceid) REFERENCES Service(serviceID),
     FOREIGN KEY (ss_tipID) REFERENCES Tip(tipID)
@@ -106,7 +106,7 @@ INSERT INTO tip (tip_amount , tip_date , employID) VALUES (
 );
 
 INSERT INTO shiftservices (ss_employid , ss_serviceid , ss_tipID , service_date) VALUES(
-    1 , 1 , 1 , '11-08-23'
+    8 , 7 , NULL , NULL
 );
 
 SELECT service.* , emp.employ_fname FROM service 
@@ -117,3 +117,15 @@ ALTER TABLE pointearn
 ADD CONSTRAINT fk_p_customerID FOREIGN KEY (p_customerID)
 REFERENCES customer (customerID)
 ON DELETE CASCADE;
+
+ALTER TABLE shiftservices
+DROP FOREIGN KEY shiftservices_ibfk_2;
+
+ALTER TABLE shiftservices
+MODIFY COLUMN ss_serviceid INT NULL;
+
+ALTER TABLE shiftservices
+ADD CONSTRAINT shiftservices_ibfk_2
+FOREIGN KEY (ss_serviceid) REFERENCES service(serviceID)
+ON DELETE CASCADE
+ON UPDATE SET NULL;

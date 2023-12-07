@@ -6,7 +6,7 @@ import axios from 'axios';
 function Popup (props) {
     const sendForm = (e) => {
         e.preventDefault();
-        const isConfirm = window.confirm(`Are you sure to delete this ${props.name}`)
+        const isConfirm = window.confirm(`Confirm Your Edit for this ${props.name}`)
         if (isConfirm){
             if (props.name === 'employee'){
                 axios.post(`${process.env.REACT_APP_API_URL}/admin/${props.name}` , {
@@ -31,23 +31,46 @@ function Popup (props) {
                 })
             }
             else if (props.name === 'services'){
-                axios.post(`${process.env.REACT_APP_API_URL}/admin/${props.name}` , {
-                    employID : props.id,
-                    employ_fname : props.employ_fname,
-                    employ_lname : props.employ_lname,
-                    employ_phone : props.employ_phone,
-                },
-                {
-                    withCredentials : true,
-                    headers: {
-                        Authorization: `Bearer ${props.token}`,
+                if (props.method === 'update'){
+                    axios.post(`${process.env.REACT_APP_API_URL}/admin/${props.name}` , {
+                        name : props.method,
+                        employID : props.id,
+                        employ_fname : props.employ_fname,
+                        employ_lname : props.employ_lname,
+                        employ_phone : props.employ_phone,
+                    },
+                    {
+                        withCredentials : true,
+                        headers: {
+                            Authorization: `Bearer ${props.token}`,
+                        }
                     }
+                    ).then((resp) => {
+                        alert(resp.data.msg);
+                        props.setIsOpen(prevState => !prevState);
+                        props.setdataSubmit(prevState => !prevState);
+                    })
                 }
-                ).then((resp) => {
-                    alert(resp.data.msg);
-                    props.setIsOpen(prevState => !prevState);
-                    props.setdataSubmit(prevState => !prevState);
-                })
+                else if (props.method === 'add'){
+                    axios.post(`${process.env.REACT_APP_API_URL}/admin/${props.name}` , {
+                        name : props.method,
+                        employID : props.id,
+                        employ_fname : props.employ_fname,
+                        employ_lname : props.employ_lname,
+                        employ_phone : props.employ_phone,
+                    },
+                    {
+                        withCredentials : true,
+                        headers: {
+                            Authorization: `Bearer ${props.token}`,
+                        }
+                    }
+                    ).then((resp) => {
+                        alert(resp.data.msg);
+                        props.setIsOpen(prevState => !prevState);
+                        props.setdataSubmit(prevState => !prevState);
+                    })
+                }
             }
             else if (props.name === 'customer'){
                 if (props.method === 'update'){
@@ -172,10 +195,12 @@ function Popup (props) {
                                     <label for="lname" className="block text-md text-gray-800">Password</label>
                                     <input value={props.employ_lname} onChange={(e) => props.setEmployln(e.target.value)} name = "lname"  className="block w-full px-4 py-2 mt-2 text-sky-700 bg-white border rounded-md focus:border-sky-400 focus:ring-sky-300 focus:outline-none focus:ring focus:ring-opacity-40"/>
                                 </div>
-                                <div className="">
-                                    <label for="phone" className="block text-md text-gray-800">Reward</label>
-                                    <input value={props.employ_phone} onChange={(e) => props.setEmployph(e.target.value)}  name = "phone" className="block w-full px-4 py-2 mt-2 text-sky-700 bg-white border rounded-md focus:border-sky-400 focus:ring-sky-300 focus:outline-none focus:ring focus:ring-opacity-40"/>
-                                </div>
+                                {props.employ_phone !== null? (
+                                    <div className="">
+                                        <label for="phone" className="block text-md text-gray-800">Reward</label>
+                                        <input value={props.employ_phone} onChange={(e) => props.setEmployph(e.target.value)}  name = "phone" className="block w-full px-4 py-2 mt-2 text-sky-700 bg-white border rounded-md focus:border-sky-400 focus:ring-sky-300 focus:outline-none focus:ring focus:ring-opacity-40"/>
+                                    </div>
+                                ):null}
                             </div>
                         </form>         
                     </div>

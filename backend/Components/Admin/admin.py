@@ -223,19 +223,35 @@ def getservice():
         lname = data.get('employ_lname') 
         phone = data.get('employ_phone')
         
-        sql = """
-            UPDATE service AS s
-            SET s.nameservice = %s, 
-                s.description = %s, 
-                s.price = %s
-            WHERE s.serviceID = %s;
-        """
-                
-        cursor.execute(sql , (fname , lname , phone, id))
+        if data.get('name') == 'update':
         
-        mysql.connection.commit()
+            sql = """
+                UPDATE service AS s
+                LEFT JOIN pointearn p ON p.
+                SET s.nameservice = %s, 
+                    s.description = %s, 
+                    s.price = %s
+                WHERE s.serviceID = %s;
+            """
+                    
+            cursor.execute(sql , (fname , lname , phone, id))
+            
+            mysql.connection.commit()
+            
+            return jsonify(msg = 'Update Successfully')
         
-        return jsonify(msg = 'Update Successfully')
+        else:
+            
+            sql = """
+                INSERT INTO service(nameservice , description , price)
+                VALUES (%s , %s , %s);
+            """
+                    
+            cursor.execute(sql , (fname , lname , phone))
+            
+            mysql.connection.commit()
+            
+            return jsonify(msg = 'Add Successfully')
     
     else:
         

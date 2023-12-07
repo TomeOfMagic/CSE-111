@@ -21,13 +21,27 @@ export default function ServicesPage(props){
 
     const [dataSubmit, setdataSubmit] = useState(false);
 
-    function OpenNav(index){
-        setIsOpen(!isOpen);
-        setId(data[index].serviceID);
-        setEmployln(data[index].description)
-        setEmployfn(data[index].nameservice);
-        setEmployph(data[index].price);
-    }
+    const [method , setMethod] = useState("");
+
+
+    function OpenNav(index , name){
+        if (name !== "add"){
+            setIsOpen(!isOpen);
+            setId(data[index].serviceID);
+            setEmployln(data[index].description)
+            setEmployfn(data[index].nameservice);
+            setEmployph(data[index].price);
+            setMethod("update");
+        }
+        else{
+            setIsOpen(!isOpen);
+            setId(null);
+            setEmployln("");
+            setEmployfn("");
+            setEmployph("");
+            setMethod("add");
+        }
+    };
 
     function getData(){
         axios.get(`${process.env.REACT_APP_API_URL}/admin/services` ,
@@ -118,7 +132,7 @@ export default function ServicesPage(props){
                                                         
                                                         <>
                                                             <div className="h-2.5 w-2.5 rounded-full bg-red-400 mr-2"></div>
-                                                            <div>{d.status}</div>
+                                                            <div>Not Active</div>
                                                         </>
                                                     )
                                                 }
@@ -127,7 +141,7 @@ export default function ServicesPage(props){
 
                                         <td>
                                             <div className=" flex gap-6">
-                                                <button onClick={() => OpenNav(index)} className=" w-[100px] bg-gray-200 shadow-md space-x-2 h-[40px]">
+                                                <button onClick={() => OpenNav(index , "update")} className=" w-[100px] bg-gray-200 shadow-md space-x-2 h-[40px]">
                                                     <FontAwesomeIcon icon={faPenToSquare} />
                                                     <span>Edit</span>
                                                 </button>
@@ -142,6 +156,12 @@ export default function ServicesPage(props){
                             })}
                         </tbody>
                     </table>
+
+                    <div className=" flex justify-center">
+                        <button onClick={() => OpenNav(0 , "add")} className=" w-[250px] py-2 bg-sky-300 text-xl rounded-full shadow-lg hover:opacity-50 text-white">
+                            <span>Add Services</span>
+                        </button>
+                    </div>
             </div>
             <Popup 
                 isOpen = {isOpen} 
@@ -159,6 +179,8 @@ export default function ServicesPage(props){
                 setToken = {props.setToken}
                 dataSubmit = {dataSubmit}
                 setdataSubmit = {setdataSubmit}
+                method = {method}
+                setMethod = {setMethod}
             />
         </>
     );

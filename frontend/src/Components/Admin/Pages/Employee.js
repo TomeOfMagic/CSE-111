@@ -78,8 +78,8 @@ export default function EmployeePage(props){
                                 <th scope="col" className="font-serif font-light px-6 py-4">Last Name</th>
                                 <th scope="col" className="font-serif font-light px-6 py-4">Phone</th>
                                 <th scope="col" className="font-serif font-light px-6 py-4">Hours</th>
-                                <th scope="col" className="font-serif font-light px-6 py-4">Pay/Hr</th>
                                 <th scope="col" className="font-serif font-light px-6 py-4">Tip</th>
+                                <th scope="col" className="font-serif font-light px-6 py-4">Pay/Hr</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -92,8 +92,8 @@ export default function EmployeePage(props){
                                     <td className="whitespace-nowrap px-6 py-4">{d.employ_lname}</td>
                                     <td className="whitespace-nowrap px-6 py-4">{d.employ_phone}</td>
                                     <td className="whitespace-nowrap px-6 py-4">{d.employ_Hours}</td>
-                                    <td className="whitespace-nowrap px-6 py-4">${d.hourly_rate}</td>
                                     <td className="whitespace-nowrap px-6 py-4">${d.tip_amount}</td>
+                                    <td className="whitespace-nowrap px-6 py-4">${d.hourly_rate}</td>
 
                                     <td>
                                         <div className=" flex gap-6">
